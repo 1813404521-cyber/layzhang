@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>性格测试·你的天选莲咪</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&family=Noto+Serif+SC:wght@600;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Noto Sans SC',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;z-index:-1;background:linear-gradient(160deg,#f0e8ff 0%,#e8d5fb 35%,#f5e6ff 65%,#ede0ff 100%)}
+  body::after{content:'🌸 🐚 🪷 🌺 🐑 💗 🌟 💜 🐚 🪷 🐑 🌸 🌟 💜 🌺';position:fixed;top:-10px;left:0;right:0;font-size:22px;letter-spacing:18px;opacity:0.22;z-index:-1;white-space:nowrap;overflow:hidden;pointer-events:none}
+  .wrap{max-width:480px;margin:0 auto;padding:36px 20px 60px;color:#3d1f6e}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  @keyframes sparkle{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.3)}}
+  .fade-up{animation:fadeUp .5s ease both}
+  .logo{font-size:12px;letter-spacing:5px;text-transform:uppercase;color:rgba(100,60,160,.45);text-align:center;margin-bottom:24px}
+  .deco{display:inline-block;animation:float 3s ease-in-out infinite;font-size:48px;margin-bottom:16px}
+  .pbar{width:100%;height:6px;background:rgba(150,80,220,.12);border-radius:3px;margin-bottom:28px;overflow:hidden}
+  .pfill{height:100%;border-radius:3px;transition:width .4s ease;background:linear-gradient(90deg,#c040ff,#ff6eb0,#ff9de2)}
+  .opt{display:block;width:100%;padding:14px 18px;border:1.5px solid rgba(150,80,220,.2);border-radius:20px;background:rgba(255,255,255,.55);cursor:pointer;text-align:left;font-size:15px;line-height:1.5;font-family:inherit;color:#3d1f6e;transition:all .25s ease;margin-bottom:10px;position:relative;overflow:hidden}
+  .opt::before{content:'🐚';position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:16px;opacity:0;transition:opacity .2s}
+  .opt:hover{border-color:rgba(160,60,240,.4);background:rgba(220,180,255,.3);transform:translateX(5px)}
+  .opt:hover::before{opacity:1}
+  .opt.sel{border-color:#b040ee;background:rgba(200,140,255,.25);color:#2d0d5a;transform:translateX(7px)}
+  .opt.sel::before{content:'💜';opacity:1}
+  .sbtn{padding:14px 44px;border:none;border-radius:30px;background:linear-gradient(135deg,#c040ff,#ff6eb0);color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;letter-spacing:1px;box-shadow:0 4px 24px rgba(192,64,255,.35);transition:transform .15s,box-shadow .15s}
+  .sbtn:hover{transform:scale(1.04);box-shadow:0 6px 30px rgba(255,110,176,.4)}
+  .sbtn:active{transform:scale(0.97)}
+  .rbtn{width:100%;padding:12px;border:1.5px solid rgba(140,60,200,.2);border-radius:20px;background:rgba(255,255,255,.4);cursor:pointer;font-size:14px;color:rgba(80,30,140,.55);font-family:inherit;transition:all .2s}
+  .rbtn:hover{border-color:rgba(160,60,240,.4);color:rgba(80,30,140,.85);background:rgba(220,180,255,.3)}
+  .brow{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .btrk{flex:1;height:7px;background:rgba(150,80,220,.1);border-radius:4px;overflow:hidden}
+  .bfil{height:100%;border-radius:4px;transition:width .8s ease}
+  .card{padding:16px 18px;border-radius:18px;background:rgba(255,255,255,.5);border:1.5px solid rgba(150,80,220,.14);margin-bottom:20px}
+  .heart-float{position:fixed;pointer-events:none;font-size:20px;animation:floatUp 2.2s ease forwards;z-index:999}
+  @keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-120px) scale(1.4)}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+var R=[
+  {id:"eryuehong",name:"二月红",src:"《老九门》",emoji:"🪭",color:"#e85d75",
+   tagline:"谁说戏子无情？",
+   desc:"你的老婆外表风流，还总是喝花酒给你带绿帽子。但其实重情重义，内心却只对一个人专情。只要认定了你，就会爱你一辈子。即使你鼠了，也会穿得美美的，给你风光大葬，一辈子守寡。",
+   traits:["深情专一","温文尔雅","艺术气质","重情重义","外柔内刚"],
+   fun:"• 作为常年练功的旦角名伶，身段超级软”\n• 戏台上的水腔到了台下也改不掉，叫起来很烧”\n• 情敌太多了，老公真的好苦恼。不过没关系，他们是旅馆你才是家。”"},
+  {id:"linhao",name:"林浩",src:"《扫黑风暴》",emoji:"🔫",color:"#4da6ff",
+   tagline:"领略小林警官的风采",
+   desc:"你的老婆又酷又帅，正义十足，遇到危险会保护你。他有时候也很脆弱，需要亲亲抱抱举高高。“问他发生了什么也不说，只是默默哭泣，实则你早已看过那卷名为（小林警官风采的录像带）”ps：有性别认知障碍，总觉得男人不能说自己不行，还试图反攻。",
+   traits:["正义感爆棚","痞帅担当","个性很直","忍辱负重","外刚内柔"],
+   fun:"• 跟老婆玩SM，道具可以从局里顺点\n• 老婆力大无穷，所谓强制爱是他让着你\n• 如果不想让他哭，永远别提徐英子的事"},
+  {id:"pansheng",name:"潘生",src:"《孤注一掷》",emoji:"💻",color:"#5dcc8c",
+   tagline:"你要不要一起玩啊？",
+   desc:"你的老婆是个心高气傲的天才程序员，被骗进缅北打断了腿才逃出来。PTSD发作的时候，会一直哭一直抖，只要亲亲抱抱他想做什么都可以。但是平常不能欺负得太狠，他可能会半夜离家出走，还说他要自由。",
+   traits:["善良正直","技术宅","倒霉体质","反抗精神","不善言辞"],
+   fun:"• 断腿后洗澡要你帮忙，很害羞会哭着叫你别看\n• 耳朵有旧伤，因此非常敏感\n• 他很讨厌BJ，用嘴是绝对的禁忌"},
+  {id:"xiaoxing",name:"小兴",src:"《一出好戏》",emoji:"🎭",color:"#f0a030",
+   tagline:"要是他疯了呢？",
+   desc:"你的老婆看起来人畜无害，甚至有点傻。但不要骗他，老实兔子逼急了也会咬人的。当然，如果你要狠狠地修理他😈，他又会选择性失忆了。总之，虽然他有点坏，但是对他好一点。",
+   traits:["扮猪吃老虎","观察力强","深藏不露","黑化反转","策略家"],
+   fun:"• 一般以脏脏包的形态出现，法前需要洗干净（好这口的不用管）\n• 抓到他干坏事的话，威胁他做什么都可以。\n• 失忆是装的，狠狠打屁股就好了"},
+  {id:"zhuangrui",name:"庄睿",src:"《黄金瞳》",emoji:"👁️",color:"#ffd54f",
+   tagline:"滴～好人卡",
+   desc:"你的老婆是个赚钱小天才，赘上了他算你有福气。大家都说他很靠谱，可他的脆弱和依赖都给了你。但是他的口头禅是“你人真好”，因此招来了很多烂桃花呢～",
+   traits:["好奇心重","平凡却幸运","善良勇敢","成长型主角","适应力强"],
+   fun:"• 用眼过度被你抓包的时候很心虚，可以趁机提点过分的要求”\n• 武力值很低，随便搓圆捏扁。\n• 有个一直缠着他的死发小，老提出3P建议"},
+  {id:"caimingjun",name:"蔡明骏",src:"《好先生》",emoji:"🧑‍🍳",color:"#c9a86c",
+   tagline:"我有病，谁有药",
+   desc:"我可看到你长什么样子了啊，就是你把小蔡拐跑了。我们家蔡明骏未成年啊！你的老婆又傻又倔，认定了你就会死心塌地跟着，哪怕被你欺负哭了，第二天还会端着做糊了的菜问你要不要尝尝。小心被他喂成猪，还有傻容易传染。",
+   traits:["天然呆","➗女","大智若愚","善良可爱","人尽可妻"],
+   fun:"•被主厨臭骂的时候，想哭不敢哭，转身切土豆的时候眼泪砸在砧板上\n•被油烫了会叫你帮忙吹吹 \n• 第一次真的很紧，对他温柔点"},
+  {id:"xiaoma",name:"小马",src:"《不说话的爱》",emoji:"🐳",color:"#7ecac3",
+   tagline:"听不见的歌",
+   desc:"你的老婆有点特殊，他的世界很安静。但他没说的话，其实你都懂。虽然但是，他无助的时候，那微微低着的头，不自觉蜷缩的身体，还有哺乳过的...停，你是人，不是出生。好好照顾你们的女儿。",
+   traits:["静默深情","勇敢","行胜于言","易孕体质"],
+   fun:"• 自从你学会了手语dirty talk，他在🛏️上就没睁眼过”\n• 第一次在你面前开口，是用尽力气从喉咙里挤出一个“好”字，他自己先被吓到，耳朵尖通红，低着头比划“不好听”，眼泪砸在你手背上\n•可能是因为喉咙使用频率低，那里很紧 "},
+  {id:"ningshu",name:"宁恕",src:"《相逢时节》",emoji:"❤️‍🩹",color:"#b06ab3",
+   tagline:"是你自己贴上来的",
+   desc:"你的老婆有很多狗，你是其中舔得最好的。如果你很爱他，他会像打滚的刺猬，允许你偶尔摸摸他的肚皮。复仇是老婆一生的事业，别劝他放下，直接把简家做掉就可以了。",
+   traits:["白切黑","复仇者","高智冷静","反差萌"],
+   fun:"• 癫痫发作的时候要紧紧地抱着他”\n• 宁恕总说“我的事不用你管”，傻子才信\n• “最喜欢的姿势是脐橙，还喜欢扇巴掌"},
+  {id:"zhuqizhen",name:"朱祁镇",src:"《大明风华》",emoji:"👑",color:"#e0976a",
+   tagline:"天才在左，疯子在右，我在中间，我是天子",
+   desc:"你的老婆是大明天子。从小被宠坏了，又怂又熊还多动症。当了俘虏后听说在敌营里被人欺负得惨兮兮的，有人看到他雪天被人扒光摸🐻。谁知道他是怎么回来的呀！谁知道他怎么又当上皇帝了呀。",
+   traits:["天生帝王","大明战神","留学生","我在草原望北京"],
+   fun:"• 从小有软骨病站不起来，走路摇摇晃晃像只小鸭子，🛏️上啥姿势都能摆”\n• 被瓦剌人当成宠物养了，很多习惯也像狗狗\n•欺负皇帝本该灭九族，奈何老婆是皇帝所以免了"},
+  {id:"yanxiaolai",name:"严小赖",src:"《求婚大作战》",emoji:"⏳",color:"#f48fb1",
+   tagline:"我不停祈愿",
+   desc:"你的运气太好了，是老婆倒追的你。青梅竹马，暗恋你十几年不敢说。眼睁睁看着你要娶别人了，在婚礼上哭着求天使让他穿越回来倒贴你。表面呆逼，其实心里戏超多，缺乏安全感，你凭什么不喜欢他啊～",
+   traits:["后知后觉","养成系","为爱勇敢"],
+   fun:"• 很肉，很润，言尽于此。\n• 其实你早就发现他不对劲了，一直憋着坏想看他花式倒贴\n• 其实直接色釉是最快的，可惜严小赖是傻子"},
+  {id:"hean",name:"何岸",src:"《长沙夜生活》",emoji:"🎤",color:"#80cbc4",
+   tagline:"辣椒放的太多不讲道理",
+   desc:"你的老婆是个脱口秀演员，长沙话的移动代言人。执着又倔强，还总是炸毛。其实他很心软的，只要一直缠着他就会答应你。每次演出他都会留一个座位给你，对着麦克风露出甜甜的酒窝：“这个段子是送给你的”。",
+   traits:["站街","执拗追梦","与原生家庭和解","独立女性"],
+   fun:"• 别问他和爸爸究竟发生过什么\n• 明明很想被认可，偏要装出一副“我不在乎”的样子。记得多夸夸他。\n•很瘦，像一颗忧郁的树。那里也瘪瘪的。你一直想把他养胖点。 ”"}
+];
+
+var RM={};
+R.forEach(function(r){RM[r.id]=r;});
+
+var QS=[
+  {q:"在一段感情里，你更容易被TA吸引：",opts:[
+    {text:"专一深情，认定你就不会放手",scores:{eryuehong:3,yanxiaolai:3}},
+    {text:"嘴上不说，但会用行动默默保护对方",scores:{linhao:2,hean:3}},
+    {text:"表里如一的老实巴交，容易相信，好骗",scores:{pansheng:3,xiaoma:3,caimingjun:3}},
+    {text:"玩草丛中过片叶不沾身的钓系仙子",scores:{xiaoxing:3,ningshu:3}}]},
+  {q:"遇到不公平的事，你觉得TA：",opts:[
+    {text:"当场翻脸，坚持正义",scores:{linhao:2,caimingjun:3,hean:3}},
+    {text:"心里记下，等候报复时机",scores:{xiaoxing:3,ningshu:3}},
+    {text:"忍一时风平浪静，后面忘了",scores:{caimingjun:3,yanxiaolai:3}},
+    {text:"不在乎这些，TA心里有更重要的事",scores:{zhuqizhen:3,pansheng:3,linhao:3}}]},
+  {q:"你希望TA的社会评价是：",opts:[
+    {text:"温柔体贴，善解人意",scores:{eryuehong:3,hean:3,xiaoma:3}},
+    {text:"话不多但靠谱，关键时刻能指望",scores:{zhuangrui:5,linhao:3,pansheng:3}},
+    {text:"蠢萌可爱，但偶尔展现出惊人的智商",scores:{caimingjun:3,xiaoxing:3}},
+    {text:"理想主义者，即使TA并不把感情放在第一位",scores:{pansheng:3,linhao:3}}]},
+  {q:"如果被困在一个危险的环境里，TA会",opts:[
+    {text:"发挥专业技能，找机会逃脱",scores:{pansheng:3,linhao:2}},
+    {text:"先装作顺从，暗中观察弱点，找准时机反击",scores:{xiaoxing:5,ningshu:3,pansheng:3}},
+    {text:"直接硬刚，不惯着任何人",scores:{linhao:2,caimingjun:3,hean:3}},
+    {text:"用智慧和人脉化解危机，不靠蛮力",scores:{eryuehong:3,zhuangrui:3}}]},
+  {q:"你希望和TA过哪种生活？",opts:[
+    {text:"有艺术气息的,每天阳春白雪",scores:{eryuehong:3,hean:3}},
+    {text:"有挑战性的，每天都在解决问题",scores:{linhao:2,pansheng:3,zhuangrui:3}},
+    {text:"做自己认为有意义的事，哪怕无人理解",scores:{zhuangrui:3,hean:3}},
+    {text:"两个人的秘密生活，无人知晓，不被打搅",scores:{xiaoxing:3,xiaoma:3}}]},
+  {q:"TA在工作中一般会：",opts:[
+    {text:"技术能力，是实打实的专业选手",scores:{pansheng:5,linhao:2}},
+    {text:"执行力，说干就干，不墨迹",scores:{ningshu:3,xiaoxing:3}},
+    {text:"亲和力，能让周围的人信任、跟随",scores:{eryuehong:3,yanxiaolai:3}},
+    {text:"观察力，总能看到别人看不到的细节",scores:{xiaoxing:3,zhuangrui:3}}]},
+  {q:"TA的缺点可能是：",opts:[
+    {text:"太重感情，容易为爱迷失自己",scores:{eryuehong:3,zhuangrui:3}},
+    {text:"太踌躇，爱很难说出口",scores:{yanxiaolai:5,hean:3}},
+    {text:"太老实，容易被人利用而不自知",scores:{pansheng:3,caimingjun:3}},
+    {text:"太能装，永远不知道TA在想什么",scores:{ningshu:3,zhuangrui:3}}]},
+  {q:"你最想在哪个时代邂逅TA：",opts:[
+    {text:"在一个和平年代，人们崇拜天才",scores:{pansheng:3,xiaoxing:3}},
+    {text:"在一个乱世，你们仗剑行天涯，互相保护",scores:{linhao:3,caimingjun:3,zhuangrui:3}},
+    {text:"在物欲横流的社会，你们挥金如土",scores:{zhuangrui:3,zhuqizhen:3}},
+    {text:"在只有你们俩的地方，过神仙般的生活",scores:{eryuehong:3,xiaoma:2}}]},
+  {q:"你觉得你们的人生是：",opts:[
+    {text:"一出戏，要演好自己的角色",scores:{eryuehong:2,xiaoxing:3,hean:5}},
+    {text:"一场战斗，要勇敢面对所有敌人",scores:{linhao:3,zhuangrui:3}},
+    {text:"一场考验，总有意想不到的坑在等着",scores:{pansheng:3,zhuangrui:3,zhuqizhen:3}},
+    {text:"一段修行，要找到真正值得守护的东西",scores:{linhao:2,xiaoma:3}}]},
+  {q:"你背叛了TA，TA会：",opts:[
+    {text:"心如刀割，但不会报复，只是转身离开",scores:{eryuehong:3}},
+    {text:"当面质问，你看看你现在烂成什么样了",scores:{linhao:2}},
+    {text:"怀疑自己，是不是做错了什么，默默掉金豆",scores:{pansheng:3,caimingjun:3}},
+    {text:"表面无所谓，暗中已经开始布局报复你",scores:{ningshu:3,xiaoxing:3}}]},
+  {q:"你觉得TA最大的魅力是：",opts:[
+    {text:"温柔和深情，认定你就不会再放手",scores:{eryuehong:3,yanxiaolai:3}},
+    {text:"正直和勇气，对你不会说谎",scores:{linhao:2,yanxiaolai:3}},
+    {text:"真诚和善良，不会伤害任何人",scores:{pansheng:3,caimingjun:3}},
+    {text:"神秘感，别人永远猜不透他，除了你",scores:{zhuangrui:3}}]},
+  {q:"如果用一句话形容TA的人生信条：",opts:[
+    {text:"“这个世界有天荒地老的爱情吗？不相信，但希望去相信。”",scores:{eryuehong:3}},
+    {text:"“我爱工作，工作使我快乐。”",scores:{linhao:3,xiaoma:3}},
+    {text:"“我只是一个普通人，一个倒霉蛋。”",scores:{pansheng:3,zhuangrui:3}},
+    {text:"“我想做的事，没有任何人任何事能阻止。”",scores:{ningshu:5,zhuqizhen:3}}]},
+  {q:"你希望如何爱TA？",opts:[
+    {text:"默默一个拥抱胜过万语千言",scores:{xiaoma:3,zhuqizhen:3}},
+    {text:"知道对方喜欢什么就安排什么，不动声色地做到",scores:{yanxiaolai:3,eryuehong:3,ningshu:3}},
+    {text:"投入全部计划和资源，确保TA没有后顾之忧",scores:{zhuqizhen:2,pansheng:3}},
+    {text:"一起追求共同的梦想，鼓励对方变得更好",scores:{hean:3,caimingjun:3}}]},
+  {q:"面临分别，你觉得TA：",opts:[
+    {text:"静默送别，心里已是波涛汹涌脸上却风平浪静",scores:{xiaoma:3,eryuehong:3}},
+    {text:"说不完的话死卡在嘴里，等你回来再说",scores:{yanxiaolai:3,caimingjun:3}},
+    {text:"情绪隐藏得很好，内心却已开始筹划去找你",scores:{ningshu:3,hean:3}},
+    {text:"孤独承受着，让自己相信等待的意义",scores:{xiaoma:3,zhuqizhen:3}}]},
+  {q:"如果可以穿越时间，你想对年轻的TA说什么？",opts:[
+    {text:"“勇敢说，勇敢做。”",scores:{yanxiaolai:5,hean:3}},
+    {text:"对他微笑，比一个爱心。",scores:{xiaoma:5}},
+    {text:"“不要执着。”",scores:{xiaoxing:3,ningshu:3}},
+    {text:"“不要轻信。”",scores:{pansheng:3,zhuqizhen:5}}]},
+  {q:"你希望TA如何度过人生的至暗时刻：",opts:[
+    {text:"心中有一个非实现不可的目标",scores:{hean:3,ningshu:3}},
+    {text:"想你",scores:{yanxiaolai:3,eryuehong:3}},
+    {text:"内心深处的任务和使命感",scores:{xiaoma:3,linhao:3}},
+    {text:"把忍耐变成了习惯",scores:{zhuqizhen:3,ningshu:3}}]}
+];
+
+var step=0,scores={},shuffled=[];
+var app=document.getElementById('app');
+
+function hexA(h,a){return 'rgba('+parseInt(h.slice(1,3),16)+','+parseInt(h.slice(3,5),16)+','+parseInt(h.slice(5,7),16)+','+a+')';}
+function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+
+function renderStart(){
+  app.innerHTML='<div class="fade-up" style="text-align:center">'+
+    '<div class="logo">莲莲· 角色宇宙</div>'+
+    '<div class="deco">🎬</div>'+
+    '<div style="font-size:22px;letter-spacing:6px;margin-bottom:10px;opacity:.6">💜 🐚 🌸 🐚 💜</div>'+
+    '<h1 style="font-size:22px;font-weight:700;margin-bottom:6px;background:linear-gradient(90deg,#d066ff,#ff6eb0,#ffb3e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent">老婆在哪里？</h1>'+
+    '<p style="font-size:13px;color:rgba(100,60,160,.5);line-height:1.7;margin-bottom:4px">二月红 · 林浩 · 潘生 · 小兴 · 庄睿 · 蔡明骏</p>'+
+    '<p style="font-size:13px;color:rgba(100,60,160,.5);line-height:1.7;margin-bottom:8px">小马 · 宁恕 · 朱祁镇 · 严小赖 · 何岸</p>'+
+    '<p style="font-size:13px;color:rgba(100,60,160,.4);margin-bottom:36px">🌺 16 道题，测测你的天选莲咪🌺</p>'+
+    '<button class="sbtn" onclick="startQuiz()">💗 开始测试</button></div>';
+}
+
+function renderQuestion(){
+  var q=shuffled[step-1],pct=(step/shuffled.length)*100;
+  var h='<div class="fade-up">'+
+    '<div class="logo">莲莲· 角色宇宙</div>'+
+    '<div style="font-size:13px;color:rgba(100,60,160,.45);margin-bottom:8px">🌸 '+step+' / '+shuffled.length+' 🌸</div>'+
+    '<div class="pbar"><div class="pfill" style="width:'+pct+'%"></div></div>'+
+    '<h2 style="font-size:18px;font-weight:600;line-height:1.6;margin-bottom:24px;color:#2d0d5a">'+q.q+'</h2>';
+  for(var i=0;i<q.opts.length;i++) h+='<button class="opt" onclick="pick('+i+')">'+q.opts[i].text+'</button>';
+  app.innerHTML=h+'</div>';
+}
+
+function renderResult(){
+  var sorted=[];
+  for(var k in scores) sorted.push([k,scores[k]]);
+  sorted.sort(function(a,b){return b[1]-a[1];});
+  var p=RM[sorted[0][0]],mx=sorted[0][1];
+  var bars='';
+  for(var i=0;i<sorted.length;i++){
+    if(sorted[i][1]<=0) continue;
+    var si=RM[sorted[i][0]];
+    bars+='<div class="brow"><div style="width:24px;font-size:14px;text-align:center">'+si.emoji+'</div><div style="width:56px;font-size:12px;color:'+si.color+'">'+si.name+'</div><div class="btrk"><div class="bfil" style="width:'+((sorted[i][1]/mx)*100)+'%;background:'+si.color+'"></div></div><div style="width:24px;font-size:11px;color:rgba(160,170,200,.35);text-align:right">'+sorted[i][1]+'</div></div>';
+  }
+  var tags='';
+  for(var i=0;i<p.traits.length;i++) tags+='<span style="display:inline-block;padding:4px 12px;border-radius:16px;background:'+hexA(p.color,0.1)+';color:'+p.color+';font-size:13px;margin:0 6px 6px 0">'+p.traits[i]+'</span>';
+  var funLines=p.fun.split('\n'),funH='';
+  for(var i=0;i<funLines.length;i++) funH+='<div style="margin-bottom:6px">'+funLines[i]+'</div>';
+
+  app.innerHTML='<div class="fade-up">'+
+    '<div class="logo">张艺兴 · 角色宇宙</div>'+
+    '<div style="text-align:center;margin-bottom:28px">'+
+    '<div style="font-size:52px;margin-bottom:10px;animation:float 2.5s ease-in-out infinite">'+p.emoji+'</div>'+
+    '<h1 style="font-size:28px;font-weight:700;color:'+p.color+';margin-bottom:2px">'+p.name+'</h1>'+
+    '<div style="font-size:13px;color:rgba(100,60,160,.45);margin-bottom:8px">'+p.src+'</div>'+
+    '<span style="display:inline-block;padding:5px 16px;background:'+hexA(p.color,0.12)+';color:'+p.color+';border-radius:20px;font-size:14px;font-weight:600">'+p.tagline+'</span></div>'+
+    '<p style="font-size:15px;line-height:1.8;color:#3d1f6e;margin-bottom:20px">'+p.desc+'</p>'+
+    '<div class="card"><div style="font-size:12px;color:rgba(100,60,160,.5);margin-bottom:10px">🌸 标签</div><div style="display:flex;flex-wrap:wrap">'+tags+'</div></div>'+
+    '<div class="card"><div style="font-size:12px;color:rgba(100,60,160,.5);margin-bottom:10px">🐚 趣闻</div><div style="font-size:14px;line-height:1.7;color:rgba(61,31,110,.75)">'+funH+'</div></div>'+
+    '<div style="margin-bottom:24px"><div style="font-size:12px;color:rgba(100,60,160,.5);margin-bottom:10px">💜 完整匹配度</div>'+bars+'</div>'+
+    '<button class="rbtn" onclick="startQuiz()">🌺 再测一次</button></div>';
+}
+
+function render(){
+  if(step===0) renderStart();
+  else if(step<=shuffled.length) renderQuestion();
+  else renderResult();
+}
+function startQuiz(){step=1;scores={};shuffled=shuffle(QS);render();}
+function spawnHeart(e){
+  var emojis=['💜','🌸','🐚','💗','🌺','✨','🪷','🐑','🌟'];
+  var el=document.createElement('div');
+  el.className='heart-float';
+  el.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  var rect=(e&&e.currentTarget)?e.currentTarget.getBoundingClientRect():{left:window.innerWidth/2,top:window.innerHeight/2};
+  el.style.left=(rect.left+Math.random()*rect.width)+'px';
+  el.style.top=(rect.top+window.scrollY)+'px';
+  document.body.appendChild(el);
+  setTimeout(function(){el.remove();},2200);
+}
+function pick(i){
+  var btns=document.querySelectorAll('.opt');
+  for(var j=0;j<btns.length;j++){btns[j].style.pointerEvents='none';if(j===i)btns[j].classList.add('sel');}
+  spawnHeart({currentTarget:btns[i]});
+  var sc=shuffled[step-1].opts[i].scores;
+  for(var k in sc) scores[k]=(scores[k]||0)+sc[k];
+  setTimeout(function(){step++;render();},400);
+}
+shuffled=shuffle(QS);render();
+</script>
+</body>
+</html>
